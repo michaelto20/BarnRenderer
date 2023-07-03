@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import Init from './Init/Init';
+import ColorChangingButton from './ColorButton/index';
 
 function App() {
+  const [barnObject, setBarnObject] = useState();
+
   useEffect(() => {
     const test = new Init('barnCanvas');
     test.initialize();
@@ -13,7 +16,7 @@ function App() {
 
     // Set up the MTL Loader
     const mtlLoader = new MTLLoader();
-    mtlLoader.setResourcePath('/src/assets/')
+    mtlLoader.setResourcePath('/src/assets/')*
     mtlLoader.setPath('/src/assets/')
     mtlLoader.load('barn.mtl', (materials) => {
       
@@ -23,6 +26,8 @@ function App() {
       objLoader.setPath('src/assets/');
       objLoader.load('barn.obj', (object) => {
         test.scene.add(object);
+        console.log(object);
+        setBarnObject(object);
       });
     },
     function (xhr) {
@@ -38,6 +43,10 @@ function App() {
 
   return (
     <div>
+      <div>
+        <ColorChangingButton
+        barnObject={barnObject}/>
+      </div>
       <canvas id="barnCanvas" />
     </div>
   );
