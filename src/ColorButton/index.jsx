@@ -1,35 +1,50 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
-const ColorChangingButton = (object) => {
-  const handleClick = () => {
-    console.log(object.barnObject);
-    object.barnObject.children.forEach((elem, idx) => {
-        if(elem.name.indexOf('roof') > -1){
-            console.log(elem);
-            elem.material[0].color.set(0xff0000);
-        }
+const colorHexMapping = {
+  'default': 0XABB0B9,
+  'red': 0xff0000,
+  'blue': 0x0000ff,
+  'green': 0x00ff00
+}
+
+const ColorChangingButton = ({barnObject, barnComponent}) => {
+  const [barnElement, setBarnElement] = useState();
+  useEffect(() => {
+    // Select the child element that we want to change the color of and save to state
+    barnObject.children.forEach((elem, idx) => {
+      if(elem.name.indexOf(barnComponent) > -1){
+          setBarnElement(elem);
+      }
     });
-    // barnObject['children'].forEach((idx, child) => {
-    //     console.log("got here");
-    //     if (child instanceof THREE.Mesh) {
-    //       // Perform color change for the desired part
-    //     }
-    //   });
+
+  },[])
+  
+  // When user clicks an option in the dropdown, set the color on the element in state
+  const changeColorClick = (event) => {
+    const selectedColor = event.target.value;
+    const elemToChange = {...barnElement}
+
+    // Some barn components have multiple materials which are an array and some aren't,
+    // need to handle both cases
+    if(Array.isArray(elemToChange.material)){
+      for(var i = 0; i < elemToChange.material.length; i++){
+        elemToChange.material[i].color.set(colorHexMapping[selectedColor]);
+      }
+    }else{
+      elemToChange.material.color.set(colorHexMapping[selectedColor]);
+    }
   };
+
 
   return (
     <div>
-      <button
-        style={{
-          backgroundColor: 'blue',
-          color: 'white',
-          padding: '10px',
-          borderRadius: '5px',
-        }}
-        onClick={handleClick}
-      >
-        Click me
-      </button>
+        <h3>Select a color for the {barnComponent}</h3>
+        <select onChange={changeColorClick}>
+            <option value='default'>-- Select --</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+        </select>
     </div>
   );
 };

@@ -26,7 +26,6 @@ function App() {
       objLoader.setPath('src/assets/');
       objLoader.load('barn.obj', (object) => {
         test.scene.add(object);
-        console.log(object);
         setBarnObject(object);
       });
     },
@@ -43,11 +42,38 @@ function App() {
 
   return (
     <div>
+      {barnObject &&
+        <div>
+          <div>
+            <ColorChangingButton
+            barnObject={barnObject}
+            barnComponent='roof'/>
+          </div>
+          <div>
+            <ColorChangingButton
+            barnObject={barnObject}
+            barnComponent='frontWall'/>
+          </div>
+          <div>
+            <ColorChangingButton
+            barnObject={barnObject}
+            barnComponent='rightWall'/>
+          </div>
+          <div>
+            <ColorChangingButton
+            barnObject={barnObject}
+            barnComponent='leftWall'/>
+          </div>
+          <div>
+            <ColorChangingButton
+            barnObject={barnObject}
+            barnComponent='wainscotting'/>
+          </div>
+        </div>
+      }
       <div>
-        <ColorChangingButton
-        barnObject={barnObject}/>
+        <canvas id="barnCanvas" />
       </div>
-      <canvas id="barnCanvas" />
     </div>
   );
 }
