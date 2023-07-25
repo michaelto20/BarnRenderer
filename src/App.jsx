@@ -4,6 +4,7 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import Init from './Init/Init';
 import ColorChangingButton from './ColorButton/index';
+import ToggleButton from './ToggleButton/index';
 
 function App() {
   const [barnObject, setBarnObject] = useState();
@@ -54,7 +55,7 @@ function App() {
             barnObject={barnObject}
             barnComponent='frontWall'/>
           </div>
-          <div>
+          {/* <div>
             <ColorChangingButton
             barnObject={barnObject}
             barnComponent='rightWall'/>
@@ -66,6 +67,11 @@ function App() {
           </div>
           <div>
             <ColorChangingButton
+            barnObject={barnObject}
+            barnComponent='wainscotting'/>
+          </div> */}
+          <div>
+            <ToggleButton
             barnObject={barnObject}
             barnComponent='wainscotting'/>
           </div>
