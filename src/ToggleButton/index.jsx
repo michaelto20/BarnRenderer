@@ -2,57 +2,72 @@ import React, {useEffect, useState} from 'react';
 
 
 const ToggleButton = ({barnObject, barnComponent}) => {
-  const [barnElement, setBarnElement] = useState();
-  const [isOn, setIsOn] = useState(false);
+  const [barnElement, setBarnElement] = useState([]);
+  const [isOn, setIsOn] = useState(true);
   useEffect(() => {
-    // Select the child element that we want to change the color of and save to state
+    // Select the child element that we want to change and save to state
+    const selectedObjects = []
     barnObject.children.forEach((elem, idx) => {
       if(elem.name.indexOf(barnComponent) > -1){
-          setBarnElement(elem);
-      }
-    });
+          selectedObjects.push(elem);
+        }
+      });
 
+    setBarnElement(selectedObjects);
   },[])
   
-  // When user clicks an option in the dropdown, set the color on the element in state
+  // Toggle visibility of element
   const changeToggle = (event) => {
-    console.log('got here');
-    const selectedColor = event.target.value;
-    const elemToChange = {...barnElement}
-    console.log(elemToChange.visible);
+    const elemsToChange = {...barnElement}
 
-    // Some barn components have multiple materials which are an array and some aren't,
-    // need to handle both cases
-    if(Array.isArray(elemToChange.material)){
-      for(var i = 0; i < elemToChange.material.length; i++){
-        elemToChange.visible = !elemToChange.visible;
+    if(Object.keys(elemsToChange).length > 1){
+      for(var i = 0; i < Object.keys(elemsToChange).length; i++){
+        console.log(elemsToChange[i].material[0].visible);
+        elemsToChange[i].material.visible = !elemsToChange[i].material.visible;
+        if(Array.isArray(elemsToChange[i].material)){
+          // elemsToChange[i].material[0].visible = !elemsToChange[i].material[0].visible;
+          console.log("got here");
+          console.log(elemsToChange[i].material.length);
+          console.log(elemsToChange[i].material[0].visible);
+          for(var j = 0; j < elemsToChange[i].material.length; i++){
+            console.log(`i: ${i}, j: ${j}`);
+            console.log(elemsToChange[i].material[j].visible);
+            elemsToChange[i].material[j].visible = !elemsToChange[i].material[j].visible;
+            console.log(elemsToChange[i].material[j].visible);
+          }
+        }
       }
     }else{
-      elemToChange.visible = !elemToChange.visible;
+      elemsToChange[0].material.visible = !elemsToChange[0].material.visible
     }
-    console.log(elemToChange.visible);
-    setBarnElement(elemToChange)
-
+    setBarnElement(elemsToChange)
     setIsOn(!isOn);
   };
 
 
   return (
     <div>
-        <h3>Select to show/hide the {barnComponent}</h3>
-        <input 
-        type='radio'
-        name='toggleBtn'
-        value='on'
-        checked={isOn}
-        onChange={changeToggle}/>
-        <input 
-        type='radio'
-        name='toggleBtn'
-        value='off'
-        checked={!isOn}
-        onChange={changeToggle}/>
-        
+        <h3>Toggle visibility of {barnComponent}</h3>
+        <label>
+          <input 
+          type='radio'
+          name={`toggleBtn${barnComponent}`}
+          value='on'
+          checked={isOn}
+          onChange={changeToggle}/>
+
+          On
+        </label>
+        <label>
+          <input 
+          type='radio'
+          name={`toggleBtn${barnComponent}`}
+          value='off'
+          checked={!isOn}
+          onChange={changeToggle}/>
+
+          Off
+        </label>
     </div>
   );
 };

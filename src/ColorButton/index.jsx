@@ -13,7 +13,10 @@ const ColorChangingButton = ({barnObject, barnComponent}) => {
     // Select the child element that we want to change the color of and save to state
     barnObject.children.forEach((elem, idx) => {
       if(elem.name.indexOf(barnComponent) > -1){
+        // verify we aren't selecting the window embedded in the wall
+        if(!elem.name.indexOf('window')){
           setBarnElement(elem);
+        }
       }
     });
 
