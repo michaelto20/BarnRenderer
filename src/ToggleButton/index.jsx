@@ -3,45 +3,28 @@ import React, {useEffect, useState} from 'react';
 
 const ToggleButton = ({barnObject, barnComponent}) => {
   const [barnElement, setBarnElement] = useState([]);
-  const [isOn, setIsOn] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
     // Select the child element that we want to change and save to state
-    const selectedObjects = []
+    const selectedObjects = [];
     barnObject.children.forEach((elem, idx) => {
-      if(elem.name.indexOf(barnComponent) > -1){
-          selectedObjects.push(elem);
-        }
-      });
-
+      const lowerName = elem.name.toLowerCase();
+      if (lowerName.indexOf(barnComponent) > -1) {
+        selectedObjects.push(elem);
+      }
+    });
+    
     setBarnElement(selectedObjects);
-  },[])
+  }, []);
   
   // Toggle visibility of element
   const changeToggle = (event) => {
     const elemsToChange = {...barnElement}
-
-    if(Object.keys(elemsToChange).length > 1){
-      for(var i = 0; i < Object.keys(elemsToChange).length; i++){
-        console.log(elemsToChange[i].material[0].visible);
-        elemsToChange[i].material.visible = !elemsToChange[i].material.visible;
-        if(Array.isArray(elemsToChange[i].material)){
-          // elemsToChange[i].material[0].visible = !elemsToChange[i].material[0].visible;
-          console.log("got here");
-          console.log(elemsToChange[i].material.length);
-          console.log(elemsToChange[i].material[0].visible);
-          for(var j = 0; j < elemsToChange[i].material.length; i++){
-            console.log(`i: ${i}, j: ${j}`);
-            console.log(elemsToChange[i].material[j].visible);
-            elemsToChange[i].material[j].visible = !elemsToChange[i].material[j].visible;
-            console.log(elemsToChange[i].material[j].visible);
-          }
-        }
-      }
-    }else{
-      elemsToChange[0].material.visible = !elemsToChange[0].material.visible
+    for(var elem in elemsToChange){
+      elemsToChange[elem].visible = !isVisible;
     }
-    setBarnElement(elemsToChange)
-    setIsOn(!isOn);
+    setBarnElement(elemsToChange);
+    setIsVisible(!isVisible);
   };
 
 
@@ -53,7 +36,7 @@ const ToggleButton = ({barnObject, barnComponent}) => {
           type='radio'
           name={`toggleBtn${barnComponent}`}
           value='on'
-          checked={isOn}
+          checked={isVisible}
           onChange={changeToggle}/>
 
           On
@@ -63,7 +46,7 @@ const ToggleButton = ({barnObject, barnComponent}) => {
           type='radio'
           name={`toggleBtn${barnComponent}`}
           value='off'
-          checked={!isOn}
+          checked={!isVisible}
           onChange={changeToggle}/>
 
           Off

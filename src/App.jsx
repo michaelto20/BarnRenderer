@@ -48,13 +48,13 @@ function App() {
               <ColorChangingButton barnObject={barnObject} barnComponent="roof" />
             </div>
             <div>
-              <ColorChangingButton barnObject={barnObject} barnComponent="frontWall" />
+              <ColorChangingButton barnObject={barnObject} barnComponent="frontwall" />
             </div>
             <div>
-              <ColorChangingButton barnObject={barnObject} barnComponent="rightWall" />
+              <ColorChangingButton barnObject={barnObject} barnComponent="rightwall" />
             </div>
             <div>
-              <ColorChangingButton barnObject={barnObject} barnComponent="leftWall" />
+              <ColorChangingButton barnObject={barnObject} barnComponent="leftwall" />
             </div>
             <div>
               <ColorChangingButton barnObject={barnObject} barnComponent="wainscotting" />
@@ -62,13 +62,10 @@ function App() {
           </div>
           <div id="toggle-container">
             <div>
-              <ToggleButton barnObject={barnObject} barnComponent="rightWall" />
+              <ToggleButton barnObject={barnObject} barnComponent="rightwall" />
             </div>
             <div>
-              <ToggleButton barnObject={barnObject} barnComponent="leftWall" />
-            </div>
-            <div>
-              <ToggleButton barnObject={barnObject} barnComponent="wainscotting" />
+              <ToggleButton barnObject={barnObject} barnComponent="leftwall" />
             </div>
           </div>
         </div>
